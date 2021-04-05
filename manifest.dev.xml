@@ -7,7 +7,7 @@
   <DisplayName DefaultValue="Mi Firma"/>
   <Description DefaultValue="Gestiona y firma electrónicamente tus documentos más importantes, desde cualquier lugar de forma ágil, segura y con validez jurídica y probatoria"/>
   <IconUrl DefaultValue="https://frosty-archimedes-0b2d91.netlify.app/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://frosty-archimedes-0b2d91.netlify.app/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://frosty-archimedes-0b2d91.netlify.app/assets/img/icon-64.png"/>
   <SupportUrl DefaultValue="https://frosty-archimedes-0b2d91.netlify.app/help"/>
   <AppDomains>
     <AppDomain>https://frosty-archimedes-0b2d91.netlify.app/</AppDomain>
