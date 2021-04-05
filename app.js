@@ -315,7 +315,8 @@ function submit() {
       if (typeof providedToken !== 'undefined') {
         localStorage.setItem('token', providedToken);
         window.resizeTo(1200, 650);
-        window.location.href = 'https://frosty-archimedes-0b2d91.netlify.app/firmador.html'; //window.location.href = 'http://localhost:4200/main/documentos';
+        window.location.href = 'https://frosty-archimedes-0b2d91.netlify.app/documentos.html'; //window.location.href = 'https://frosty-archimedes-0b2d91.netlify.app/firmador.html'
+        //window.location.href = 'http://localhost:4400/main/documentos';
       } else {
         document.getElementById("load-banner").style.display = "none";
         new _attention_js__WEBPACK_IMPORTED_MODULE_3__["Alert"]({
@@ -550,22 +551,53 @@ function askOTPfromUser() {
 }
 
 function addToMiFirma() {
+  var auth_code;
   _services_gateway_service_js__WEBPACK_IMPORTED_MODULE_0__["default"].addToMiFirma(_services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].firstName + ' ' + _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].lastName, _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].user, _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].customerMobile).then(function (Resp) {
     if (Resp.status_code === 201) {
-      isNewUser = true;
-      document.getElementById("load-banner").style.display = "none";
-      var modal = document.getElementById("otp-modal");
-      var modalContent = document.getElementById("modal-content");
-      modal.style.display = "flex";
-      modalContent.innerHTML = "<h2>Todo sali\xF3 bien</h2>\n        <p>Ya puedes comenzar a usar MiFirma</p>\n          <div class=\"MF-center\">\n            <button class=\"MF-button2\" id=\"end-process\">Firmar ahora</button>\n          </div>\n        ";
-      document.getElementById('end-process').addEventListener('click', function () {
-        data.email = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].user;
-        data.password = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].authority;
-        console.log("Iniciando Sesion... con ".concat(data.email, " y ").concat(data.password));
-        validateEmail(); //this should refresh authid
+      _services_gateway_service_js__WEBPACK_IMPORTED_MODULE_0__["default"].getValidationParameter(_services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].user).then(function (Respuesta) {
+        if (Respuesta.statusCode == 200) {
+          auth_code = Respuesta.message;
+          var activationMessage = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].user + '&&&' + auth_code;
+          var activationBase64 = window.btoa(activationMessage);
+          _services_gateway_service_js__WEBPACK_IMPORTED_MODULE_0__["default"].activateAccount(activationBase64).then(function (Resp) {
+            if (Resp.statusCode == 200) {
+              showSuccess();
+            } else {
+              showProcessError();
+            }
+          });
+        } else {
+          showProcessError();
+        }
       });
+    } else {
+      showProcessError();
     }
   });
+}
+
+function showSuccess() {
+  isNewUser = true;
+  document.getElementById("load-banner").style.display = "none";
+  var modal = document.getElementById("otp-modal");
+  var modalContent = document.getElementById("modal-content");
+  modal.style.display = "flex";
+  modalContent.innerHTML = "<h2>Todo sali\xF3 bien</h2>\n  <p>Ya puedes comenzar a usar MiFirma</p>\n    <div class=\"MF-center\">\n      <button class=\"MF-button2\" id=\"end-process\">Firmar ahora</button>\n    </div>\n  ";
+  document.getElementById('end-process').addEventListener('click', function () {
+    data.email = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].user;
+    data.password = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].authority;
+    console.log("Iniciando Sesion... con ".concat(data.email, " y ").concat(data.password));
+    validateEmail(); //this should refresh authid
+  });
+}
+
+function showProcessError() {
+  isNewUser = false;
+  document.getElementById("load-banner").style.display = "none";
+  var modal = document.getElementById("otp-modal");
+  var modalContent = document.getElementById("modal-content");
+  modal.style.display = "flex";
+  modalContent.innerHTML = "<h2>Algo sali\xF3 mal</h2>\n  <p>Por favor intente nuevamente mas tarde</p>";
 }
 
 function login(respuesta) {
@@ -600,8 +632,10 @@ function nextStep(respuesta) {
       break;
 
     case 'Password':
-      if (isNewUser) {
-        document.getElementById("password").value = document.getElementById("password1").value;
+      var fromOffice = localStorage.getItem('userFromOffice') == 'true';
+
+      if (isNewUser || fromOffice) {
+        document.getElementById("password").value = _services_session_service_js__WEBPACK_IMPORTED_MODULE_2__["default"].authority;
         data.password = document.getElementById("password").value;
         console.log('key: ');
         console.log(data.password);
@@ -1286,6 +1320,31 @@ var GatewayService = /*#__PURE__*/function () {
         method: "POST",
         body: JSON.stringify(data),
         headers: httpOptions3
+      }).then(function (response) {
+        return response.json();
+      });
+    }
+  }, {
+    key: "getValidationParameter",
+    value: function getValidationParameter(user) {
+      var path = "".concat(url, "Gateway/api/v2_0/customers/getValidationParameter/").concat(user);
+      return fetch(path, {
+        method: "GET",
+        headers: httpOptions
+      }).then(function (response) {
+        return response.json();
+      });
+    }
+  }, {
+    key: "activateAccount",
+    value: function activateAccount(activator) {
+      var data = {
+        activator: activator
+      };
+      return fetch("".concat(url, "Gateway/api/v2_0/customers/activateAccount"), {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: httpOptions
       }).then(function (response) {
         return response.json();
       });

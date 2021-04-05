@@ -48842,6 +48842,31 @@ var GatewayService = /*#__PURE__*/function () {
         return response.json();
       });
     }
+  }, {
+    key: "getValidationParameter",
+    value: function getValidationParameter(user) {
+      var path = "".concat(url, "Gateway/api/v2_0/customers/getValidationParameter/").concat(user);
+      return fetch(path, {
+        method: "GET",
+        headers: httpOptions
+      }).then(function (response) {
+        return response.json();
+      });
+    }
+  }, {
+    key: "activateAccount",
+    value: function activateAccount(activator) {
+      var data = {
+        activator: activator
+      };
+      return fetch("".concat(url, "Gateway/api/v2_0/customers/activateAccount"), {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: httpOptions
+      }).then(function (response) {
+        return response.json();
+      });
+    }
   }]);
 
   return GatewayService;
