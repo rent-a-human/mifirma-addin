@@ -20035,7 +20035,7 @@ function _openMiFirma() {
                   while (1) {
                     switch (_context.prev = _context.next) {
                       case 0:
-                        Office.context.ui.displayDialogAsync("https://localhost:2000/app.html", {
+                        Office.context.ui.displayDialogAsync("https://frosty-archimedes-0b2d91.netlify.app/app.html", {
                           width: 30,
                           height: 75
                         }); //  if (localStorage.getItem("word-document1") === null) {
@@ -20400,7 +20400,7 @@ function _run() {
                         localStorage.setItem('userFromOffice', false);
                         localStorage.setItem('noob', '0'); //garantiza que no usa info de office, ya que fue llamado desde clic en iniciar sesion
 
-                        Office.context.ui.displayDialogAsync("https://localhost:2000/app.html", {
+                        Office.context.ui.displayDialogAsync("https://frosty-archimedes-0b2d91.netlify.app/app.html", {
                           width: 30,
                           height: 75
                         }); // if (localStorage.getItem("word-document1") === null) {
