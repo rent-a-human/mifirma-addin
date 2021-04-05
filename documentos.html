@@ -49,14 +49,14 @@
         const iframe = document.getElementById("myIframe").contentWindow;
         iframe.postMessage({
         action: 'save',
-        key: 'word-document1',
-        value: data
-        }, '*');
-        iframe.postMessage({
-        action: 'save',
         key: 'token',
         value: localStorage.getItem('token')
-        }, '*');        
+        }, '*');  
+        iframe.postMessage({
+        action: 'save',
+        key: 'word-document1',
+        value: data
+        }, '*');              
         iframe.postMessage({
         action: 'save',
         key: 'word-document-name1',
@@ -77,8 +77,13 @@
         key: 'phoneUser',
         value: localStorage.getItem('phoneUser')
         }, '*');
+        iframe.postMessage({
+        action: 'save',
+        key: 'refresh',
+        value: 'refresh'
+        }, '*');
         
-        }, 2000);
+        }, 2500);
 
     console.log("bye1");
     

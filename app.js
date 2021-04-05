@@ -315,7 +315,7 @@ function submit() {
       if (typeof providedToken !== 'undefined') {
         localStorage.setItem('token', providedToken);
         window.resizeTo(1200, 650);
-        window.location.href = 'https://frosty-archimedes-0b2d91.netlify.app/documentos.html'; //window.location.href = 'https://frosty-archimedes-0b2d91.netlify.app/firmador.html'
+        window.location.href = 'https://localhost:2000/documentos.html'; //window.location.href = 'https://localhost:2000/firmador.html'
         //window.location.href = 'http://localhost:4400/main/documentos';
       } else {
         document.getElementById("load-banner").style.display = "none";
