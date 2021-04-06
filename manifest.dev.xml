@@ -82,11 +82,9 @@
     </Resources>
     <WebApplicationInfo>
       <Id>4f7b4e1d-155e-4ec0-8bd5-3d228e1c5170</Id>
-      <Resource>api://localhost:2000/4f7b4e1d-155e-4ec0-8bd5-3d228e1c5170</Resource>
+      <Resource>api://frosty-archimedes-0b2d91.netlify.app/4f7b4e1d-155e-4ec0-8bd5-3d228e1c5170</Resource>
       <Scopes>
-        <Scope>openid</Scope>
-        <Scope>user.read</Scope>
-        <Scope>files.read</Scope>
+        <Scope>User.Read</Scope>
         <Scope>profile</Scope>
       </Scopes>
     </WebApplicationInfo>

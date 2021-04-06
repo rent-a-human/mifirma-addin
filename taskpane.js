@@ -14510,7 +14510,7 @@ function makeGraphApiCall(accessToken) {
         try {
             const response = yield $.ajax({
                 type: "GET",
-                url: "https://graph.microsoft.com//v1.0/getuserdata",
+                url: "getuserdata",
                 headers: { access_token: accessToken },
                 cache: false
             });
